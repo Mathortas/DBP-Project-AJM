@@ -57,7 +57,7 @@ ROOT_URLCONF = 'MyUCSP.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'my_ucsp/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'my_ucsp/templates/my_ucsp')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
