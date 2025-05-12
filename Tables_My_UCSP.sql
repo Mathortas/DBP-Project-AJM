@@ -1,6 +1,6 @@
 USE freedb_my_ucsp_db;
 
--- 1. Crear tabla de usuario (anteriormente auth_user) sin el atributo rol
+-- 1. Crear tabla de usuario sin el atributo rol
 CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(100) NOT NULL,
@@ -14,10 +14,9 @@ CREATE TABLE curso (
     nombre VARCHAR(100) NOT NULL,
     ciclo VARCHAR(20) NOT NULL,
     modalidad VARCHAR(50) NOT NULL,
-    id_docente INT,
     descripcion TEXT,  -- Opcional
-    creditos INT,      -- Opcional
-    FOREIGN KEY (id_docente) REFERENCES usuario(id) ON DELETE SET NULL
+    creditos INT      -- Opcional
+    -- Ya no hay 'id_docente' ni FK a usuario
 );
 
 -- 3. Crear tabla de horarios
