@@ -1,14 +1,14 @@
-use freedb_my_ucsp_db;
+USE freedb_my_ucsp_db;
 
-CREATE TABLE auth_user (
+-- 1. Crear tabla de usuario (anteriormente auth_user) sin el atributo rol
+CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(100) NOT NULL,
     correo VARCHAR(100) NOT NULL UNIQUE,
-    contrasena VARCHAR(255) NOT NULL,  -- Puedes encriptar esto si usas backend
-    rol ENUM('estudiante', 'docente', 'admin') NOT NULL
+    contrasena VARCHAR(255) NOT NULL  -- Puedes encriptar esto si usas backend
 );
 
--- 1. Crear tabla de cursos
+-- 2. Crear tabla de cursos
 CREATE TABLE curso (
     id_curso INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -17,10 +17,10 @@ CREATE TABLE curso (
     id_docente INT,
     descripcion TEXT,  -- Opcional
     creditos INT,      -- Opcional
-    FOREIGN KEY (id_docente) REFERENCES auth_user(id) ON DELETE SET NULL
+    FOREIGN KEY (id_docente) REFERENCES usuario(id) ON DELETE SET NULL
 );
 
--- 2. Crear tabla de horarios
+-- 3. Crear tabla de horarios
 CREATE TABLE horario (
     id_horario INT AUTO_INCREMENT PRIMARY KEY,
     id_curso INT NOT NULL, -- FK hacia curso
@@ -31,19 +31,19 @@ CREATE TABLE horario (
     FOREIGN KEY (id_curso) REFERENCES curso(id_curso) ON DELETE CASCADE
 );
 
--- 3. Crear tabla de matrículas
+-- 4. Crear tabla de matrículas
 CREATE TABLE matricula (
     id_matricula INT AUTO_INCREMENT PRIMARY KEY,
-    id_estudiante INT NOT NULL, -- FK hacia auth_user
+    id_estudiante INT NOT NULL, -- FK hacia usuario
     correo_estudiante VARCHAR(100) NOT NULL,
     id_curso INT NOT NULL, -- FK hacia curso
     ciclo VARCHAR(20) NOT NULL,
     fecha_matricula DATE NOT NULL,
-    FOREIGN KEY (id_estudiante) REFERENCES auth_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_estudiante) REFERENCES usuario(id) ON DELETE CASCADE,
     FOREIGN KEY (id_curso) REFERENCES curso(id_curso) ON DELETE CASCADE
 );
 
--- 4. Crear tabla de tareas
+-- 5. Crear tabla de tareas
 CREATE TABLE tarea (
     id_tarea INT AUTO_INCREMENT PRIMARY KEY,
     nombre_tarea VARCHAR(100) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE tarea (
     FOREIGN KEY (id_curso) REFERENCES curso(id_curso) ON DELETE CASCADE
 );
 
--- 5. Crear tabla de notas
+-- 6. Crear tabla de notas
 CREATE TABLE nota (
     id_nota INT AUTO_INCREMENT PRIMARY KEY,
     nombre_nota VARCHAR(100) NOT NULL,
